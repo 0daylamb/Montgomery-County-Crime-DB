@@ -12,61 +12,79 @@ The database covers both open and closed cases dating back to **July 2016**, wit
 
 ---
 
-## 🏗️ Database Architecture
+## 🗺️ Entity-Relationship Diagram
 
-The design moves away from the original flat public structure toward a fully normalized relational model, centered on a **primary Crime table** linked to specialized supplemental tables via distinct IDs.
-
-### Entity-Relationship Overview
-
-```
-                        ┌─────────────┐
-                        │    Crime    │  ← Core table (Incident ID, CR number,
-                        │  (Primary)  │    victim counts, start/end dates)
-                        └──────┬──────┘
-             ┌─────────────────┼──────────────────┐
-             │                 │                  │
-      ┌──────▼──────┐   ┌──────▼──────┐   ┌──────▼──────┐
-      │  Location   │   │   Agency    │   │  Dispatch   │
-      │             │   │             │   │             │
-      │ Block addr  │   │ District    │   │ Response    │
-      │ City        │   │ Responding  │   │ date & time │
-      │ Zip code    │   │ agency      │   └─────────────┘
-      └─────────────┘   └─────────────┘
-                                │
-                        ┌───────▼───────┐
-                        │ Offense/NIBRS │
-                        │               │
-                        │ Crime type    │
-                        │ NIBRS codes   │
-                        └───────────────┘
-```
-
-### Table Descriptions
-
-| Table | Key Fields | Purpose |
-|-------|-----------|---------|
-| `Crime` | `incident_id`, `cr_number`, `victim_count`, `start_date`, `end_date` | Core incident record |
-| `Location` | `block_address`, `city`, `zip_code` | Privacy-safe geography |
-| `Agency` | `district_name`, `district_number`, `agency_name` | Responding law enforcement |
-| `Offense` | `offense_code`, `crime_name_1/2/3` | Hierarchical crime classification |
-| `NIBRS` | `nibrs_code`, `nibrs_description` | Standardized federal categorization |
-| `Dispatch` | `dispatch_date`, `dispatch_time` | Law enforcement response timing |
+![ERD Design](https://github.com/0daylamb/Montgomery-County-Crime-DB/blob/main/ERD%20Design.png)
 
 ---
 
-## ✨ Key Design Decisions
+## 🏗️ Database Architecture
 
-**Granular Severity Tracking**
-Added a `victim_count` field per incident to surface the real-world impact of crimes beyond a simple tally — enabling district-level comparisons and hotspot identification.
+The schema follows a fully normalized relational model centered on a **primary `Crime` table**, linked to six specialized tables through foreign keys and a many-to-many linking table.
 
-**Privacy-First Geography**
-Replaced exact house numbers with block-level addresses (e.g., `600 BLK DENHAM RD`) to preserve spatial trends while protecting individual privacy.
+### Table Descriptions
 
-**Standardized Crime Classification**
-Isolated NIBRS codes into a dedicated table, enabling consistent cross-jurisdictional categorization and compatibility with federal crime reporting standards.
+| Table | Primary Key | Key Fields | Purpose |
+|-------|-------------|-----------|---------|
+| `crime` | `crime_id` | `nibrs_id`, `offense_id`, `agency_id`, `dispatch_id`, `victims_num`, `start_date`, `end_date`, `place_name` | Core incident record |
+| `offense` | `offense_id` | `offense_code`, `crime_name` | Hierarchical crime classification (Levels 1–3) |
+| `nibrs` | `nibrs_id` | `nibrs_code` | Federal NIBRS standardized crime categorization |
+| `location` | `location_id` | `street_num`, `address`, `city`, `state`, `zip_code` | Privacy-safe block-level geography |
+| `agency` | `agency_id` | `police_number`, `police_district`, `police_agency` | Responding law enforcement unit |
+| `dispatch` | `dispatch_id` | `dispatch_start_time`, `dispatch_end_time`, `dispatch_date` | Law enforcement response timing |
+| `linking_table` | `crime_id` + `location_id` (composite PK) | — | Resolves the many-to-many relationship between `crime` and `location` |
 
-**VARCHAR Optimization**
-Testing revealed most `VARCHAR` fields required only ~10 characters despite an initial 45-character allocation. Right-sizing these fields meaningfully improved database efficiency.
+### Relationships
+
+| Type | Relationship |
+|------|-------------|
+| One-to-Many | `crime` →  `offense` |
+| One-to-Many | `crime` →  `nibrs` |
+| One-to-Many | `crime` →  `agency` |
+| One-to-Many | `crime` →  `dispatch` |
+| Many-to-Many | `location` ↔ `crime` (via `linking_table`) |
+
+---
+
+## 🔢 Sample Data
+
+**Crime Classification**
+
+| State | crime_name_1 | crime_name_2 | crime_name_3 |
+|-------|-------------|-------------|-------------|
+| MD | Crime Against Property | All Other Larceny | LARCENY |
+| MD | Crime Against Property | Shoplifting | LARCENY - SHOPLIFTING |
+| MD | Crime Against Society | Weapon Law Violations | LARCENY - CONCEALED |
+
+**Incident Records**
+
+| Incident ID | Offense Code | NIBRS Code | Victims |
+|-------------|-------------|-----------|---------|
+| 201408297 | 2399 | 23H | 1 |
+| 201408298 | 2316 | 23H | 1 |
+| 201408298 | 2501 | 250 | 1 |
+
+**Location Records**
+
+| Block Address | City | State | Zip Code |
+|---------------|------|-------|---------|
+| 19600 BLK CRYSTAL ROCK DR | Germantown | MD | 20874 |
+| 13700 BLK CONNECTICUT AVE | Rockville | MD | 20906 |
+
+---
+
+## 📐 Normalization
+
+The schema was developed across three normal forms:
+
+**1NF — First Normal Form**
+Established the foundational `crime` and `agency` tables, eliminating repeating groups and ensuring atomic values per field.
+
+**2NF — Second Normal Form**
+Further decomposed the `crime` table by extracting `offense` and `location` into their own tables, removing partial dependencies. A `linking_table` was introduced to manage the many-to-many relationship between crimes and locations.
+
+**3NF — Third Normal Form**
+Created the `nibrs` table to remove the transitive dependency of NIBRS codes on the `offense` table. The `agency` table was further split by extracting dispatch data into a dedicated `dispatch` table.
 
 ---
 
@@ -81,6 +99,22 @@ Pre-built views are included to answer the most common public safety queries out
 | `high_victims_crimes` | Incidents filtered by highest victim counts |
 | `crimes_locations_agency` | Full join — incident location + responding agency |
 | `crimes_grouped_by_nibr` | Incidents organized by NIBRS crime category |
+
+---
+
+## ✨ Key Design Decisions
+
+**Granular Severity Tracking**
+Added a `victims_num` field per incident to surface the real-world impact of crimes beyond a simple count — enabling district-level comparisons and hotspot identification.
+
+**Privacy-First Geography**
+Replaced exact house numbers with block-level addresses (e.g., `19600 BLK CRYSTAL ROCK DR`) to preserve spatial trends while protecting individual privacy.
+
+**Standardized Crime Classification**
+Isolated NIBRS codes into a dedicated table, enabling consistent cross-jurisdictional categorization and compatibility with federal crime reporting standards.
+
+**VARCHAR Optimization**
+Testing revealed most `VARCHAR` fields required only ~10 characters despite an initial `VARCHAR(45)` allocation throughout the schema. Right-sizing these fields meaningfully improved database efficiency.
 
 ---
 
@@ -99,7 +133,7 @@ This database is designed to empower residents with awareness of local crime pat
 ## 🔭 Future Work
 
 - **Predictive Modeling** — Integrate ML models to forecast high-risk periods and locations
-- **Geospatial Analysis** — Layer crime data onto interactive maps for visual hotspot identification  
+- **Geospatial Analysis** — Layer crime data onto interactive maps for visual hotspot identification
 - **Socioeconomic Integration** — Incorporate external indicators (poverty, housing, education) to contextualize crime trends
 - **Dashboard** — Build a public-facing visualization layer for non-technical stakeholders
 
