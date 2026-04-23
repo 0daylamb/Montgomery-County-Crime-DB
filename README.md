@@ -126,8 +126,6 @@ Although crime statistics are public record, we deliberately omitted any persona
 **Informed Community Use**
 This database is designed to empower residents with awareness of local crime patterns to support safer decision-making, not to surveil or profile individuals or communities.
 
-> ⚠️ This data must not be used for racial profiling, discriminatory resource allocation, or any purpose that undermines community trust. Responsible use means pairing crime statistics with socioeconomic context — not treating incident counts as the full picture.
-
 ---
 
 ## 🔭 Future Work
