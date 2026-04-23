@@ -1,0 +1,57 @@
+offense_id,offense_code,crime_name
+1,2305,Crime Against Property | Theft From Motor Vehicle | LARCENY - FROM AUTO
+2,2404,Crime Against Property | Motor Vehicle Theft | AUTO THEFT - VEHICLE THEFT
+3,2589,Crime Against Property | Counterfeiting/Forgery | FORGERY (DESCRIBE OFFENSE)
+4,1117,Crime Against Person | Forcible Fondling | SEX ASSAULT - CARNAL ABUSE
+5,9107,Other | All Other Offenses | MISSING PERSON
+6,9105,Other | All Other Offenses | LOST PROPERTY
+7,2203,Crime Against Property | Burglary/Breaking and Entering | BURGLARY - FORCED ENTRY-NONRESIDENTIAL
+8,3562,Crime Against Society | Drug/Narcotic Violations | DRUGS - MARIJUANA - POSSESS
+9,2602,Crime Against Property | False Pretenses/Swindle/Confidence Game | FRAUD - SWINDLE
+10,5707,Crime Against Society | Trespass of Real Property | TRESPASSING
+11,2699,Crime Against Property | False Pretenses/Swindle/Confidence Game | FRAUD (DESCRIBE OFFENSE)
+12,2007,Crime Against Property | Arson | ARSON - BURNING OF - (IDENTIFY OBJECT)
+13,2303,Crime Against Property | Shoplifting | LARCENY - SHOPLIFTING
+14,2202,Crime Against Property | Burglary/Breaking and Entering | BURGLARY - FORCED ENTRY-RESIDENTIAL
+15,5404,Crime Against Society | Driving Under the Influence | DRIVING UNDER THE INFLUENCE LIQUOR
+16,1399,Crime Against Person | Simple Assault | ASSAULT - 2ND DEGREE
+17,1207,Crime Against Property | Robbery | ROBBERY - RESIDENTIAL-GUN
+18,2304,Crime Against Property | Theft of Motor Vehicle Parts or Accessories | LARCENY - AUTO PARTS
+19,2901,Crime Against Property | Destruction/Damage/Vandalism of Property | DAMAGE PROPERTY - BUSINESS
+20,2308,Crime Against Property | Theft from Building | LARCENY - FROM BLDG
+21,9109,Other | All Other Offenses | RECOVERED PROPERTY - OTHER
+22,9199,Other | All Other Offenses | POLICE INFORMATION
+23,2006,Crime Against Property | Arson | ARSON - RESIDENTIAL
+24,5309,Crime Against Society | All Other Offenses | PUBLIC PEACE - HARASSING COMMUNICATION
+25,9101,Other | All Other Offenses | SUDDEN DEATH
+26,1314,Crime Against Person | Aggravated Assault | ASSAULT - AGGRAVATED - GUN
+27,9113,Other | All Other Offenses | MENTAL ILLNESS - EMERGENCY PETITION
+28,2605,Crime Against Property | Credit Card/Automatic Teller Machine Fraud | FRAUD - ILLEGAL USE CREDIT CARDS
+29,9108,Other | All Other Offenses | RECOVERED PROPERTY - MONT CO.
+30,2501,Crime Against Property | Counterfeiting/Forgery | FORGERY OF CHECKS
+31,1116,Crime Against Person | Statuory Rape | STATUTORY RAPE - NO FORCE
+32,1206,Crime Against Property | Robbery | ROBBERY - STREET-STRONG-ARM
+33,2316,Crime Against Property | All other Larceny | LARCENY - POSTAL
+34,2399,Crime Against Property | All other Larceny | LARCENY (DESCRIBE OFFENSE)
+35,9201,Other | All Other Offenses | OVERDOSE
+36,9112,Other | All Other Offenses | MENTAL TRANSPORT - ONLY
+37,9021,Not a Crime | Runaway | JUVENILE - RUNAWAY
+38,5016,Crime Against Society | All Other Offenses | OBSTRUCT GOVT - VIOLATION OF A COURT ORDER
+39,1103,Crime Against Person | Forcible Rape | RAPE - STRONG-ARM
+40,1313,Crime Against Person | Simple Assault | ASSAULT - SIMPLE
+41,2902,Crime Against Property | Destruction/Damage/Vandalism of Property | DAMAGE PROPERTY - PRIVATE
+42,4801,Crime Against Society | All Other Offenses | OBSTRUCT POLICE - RESISTING OFFICER
+43,5311,Crime Against Society | Disorderly Conduct | PUBLIC PEACE - DISORDERLY CONDUCT
+44,2411,Crime Against Society | All Other Offenses | UNAUTHORIZED USE OF VEHICLE (INCLUDES JOY RIDING)
+45,2610,Crime Against Property | Identity Theft | IDENTITY THEFT
+46,1305,Crime Against Person | Aggravated Assault | ASSAULT - AGGRAVATED - NON-FAMILY-OTHER WEAPON
+47,3700,Crime Against Society | Pornography/Obscene Material | OBSCENE MATERIAL
+48,2499,Crime Against Property | Motor Vehicle Theft | STOLEN VEHICLE (DESCRIBE OFFENSE)
+49,1214,Crime Against Property | Robbery | ROBBERY - KNIFE
+50,2204,Crime Against Property | Burglary/Breaking and Entering | BURGLARY - NO FORCED ENTRY-RESIDENTIAL
+51,2999,Crime Against Property | Destruction/Damage/Vandalism of Property | DAMAGE PROPERTY (DESCRIBE OFFENSE)
+52,2601,Crime Against Property | False Pretenses/Swindle/Confidence Game | FRAUD - CONFIDENCE GAME
+53,2205,Crime Against Property | Burglary/Breaking and Entering | BURGLARY - NO FORCED ENTRY-NONRESIDENTIAL
+54,1212,Crime Against Property | Robbery | ROBBERY - CARJACKING - ARMED
+55,2302,Crime Against Property | Purse-snatching | LARCENY - PURSE SNATCHING - NO FORCE
+56,5499,Other | NOT NIBRS CODE | TRAFFIC OFFENSES (DESCRIBE OFFENSE)
